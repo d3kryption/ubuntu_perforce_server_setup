@@ -28,7 +28,7 @@ EOF
 apt -y update;
 
 # install perforce
-apt-get install helix-p4d;
+apt install -y helix-p4d;
 
 # perforce settings
 echo "export EDITOR='nano'" >> ~/.bashrc
@@ -55,7 +55,7 @@ echo "press Y to allow firewall"
 ufw allow 1666;
 
 # enable firewall
-ufw enable -y
+ufw enable
 
 # final typemap settings
 p4 typemap;
