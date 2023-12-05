@@ -11,6 +11,9 @@ I had a few clients who wanted it setup and it was the same commands over and ov
 
 ## 🛠️ Installation Steps - development
 
+Video:
+https://youtu.be/P8DKbF6aQfk
+
 1) Clone the repo / download the `perforce_server_setup.sh`
 
 ```bash
@@ -25,3 +28,29 @@ sudo ./perforce_server_setup.sh
 
 3) Some steps will pause execution and wait for you to enter some details to continue.
 
+4) Paste these typemap settings in when prompted
+```bash
+binary+w //....exe
+binary+w //....dll
+binary+w //....lib
+binary+w //....app
+binary+w //....dylib
+binary+w //....stub
+binary+w //....ipa
+binary //....bmp
+text //....ini
+text //....config
+text //....cpp
+text //....h
+text //....c
+text //....cs
+text //....m
+text //....mm
+text //....py
+binary+l //....uasset
+binary+l //....umap
+binary+l //....upk
+binary+l //....udk
+binary+l //....ubulk
+binary+wS //..._BuiltData.uasset
+```
