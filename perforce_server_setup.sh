@@ -34,8 +34,10 @@ apt install -y helix-p4d;
 echo "export EDITOR='nano'" >> ~/.bashrc
 echo "export VISUAL='nano'" >> ~/.bashrc
 
-# refresh bashrc
+# refresh bashrc - 3 ways of trying to force the bashrc to update
 source ~/.bashrc
+exec bash
+. ~/.bashrc
 
 # perforce config setup
 sudo /opt/perforce/sbin/configure-helix-p4d.sh
