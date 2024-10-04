@@ -56,7 +56,7 @@ binary+wS //..._BuiltData.uasset
 ```
 ## Upgrade / Reboot issue
 
-In version **2024.1**, a fatal bug causes P4 to stop working. It can be resolved with the below steps.
+In version **2024.1**, a fatal bug causes P4 to stop working when you UPDATE / UPGRADE. It can be resolved with the below steps.
 
 1) Modify the file `nano /etc/perforce/p4dctl.conf.d/master.conf`
 
