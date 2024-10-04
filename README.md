@@ -54,3 +54,17 @@ binary+l //....udk
 binary+l //....ubulk
 binary+wS //..._BuiltData.uasset
 ```
+## Upgrade / Reboot issue
+
+In version **2024.1**, a fatal bug causes P4 to stop working. It can be resolved with the below steps.
+
+1) Modify the file `nano /etc/perforce/p4dctl.conf.d/master.conf`
+
+2) You need to add the lines above **P4ROOT**:
+`P4PORT = SSL:YOUR IP ADDRESS:1666`
+`P4LOG = /var/log/perforce/p4err`
+`P4SSLDIR = /mnt/YOUR STORAGE LOCATION/root/ssl`
+
+3) Press CTRL+X to exit, Y to save, and then enter
+
+4) Now reboot the Perforce service: `systemctl start helix-p4dctl.service` and then Perforce: `p4 admin restart`
