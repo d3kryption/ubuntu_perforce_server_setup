@@ -9,6 +9,8 @@ I had a few clients who wanted it setup and it was the same commands over and ov
 ## Limitations
 - Ubuntu based only - I tried to get it working on Debian what I normally use but either packages weren't available or they were out of date. Without a lot of messing around updating sources its just easier to use Ubuntu for now.
 
+- Randomly sometimes the script will just stop running. No idea why. You can try to view the last thing it ran then re-run from there. If you can let me know WHICH bit it stopped on, I can try to fix.
+
 ## 🛠️ Installation Steps - development
 
 Video:
@@ -28,7 +30,21 @@ sudo ./perforce_server_setup.sh
 
 3) Some steps will pause execution and wait for you to enter some details to continue.
 
-4) Paste these typemap settings in when prompted
+NOTE: The newest version of the script automates the Typemap part! 
+
+Keeping this here for anyone who wants the changes. (You don't need to do this)
+
+4) Remove the following lines: (see p4TypemapRemoval.md for a easier list)
+
+```bash
+binary+l //....exe
+binary+l //....dll
+binary+l //....lib
+binary+l //...bmp
+binary+l //...tar
+```
+
+5) Paste these typemap settings in when prompted (see p4TypemapAdditions.md for a easier list)
 ```bash
 binary+w //....exe
 binary+w //....dll
@@ -54,6 +70,7 @@ binary+l //....udk
 binary+l //....ubulk
 binary+wS //..._BuiltData.uasset
 ```
+
 ## Upgrade / Reboot issue
 
 In version **2024.1**, a fatal bug causes P4 to stop working when you UPDATE / UPGRADE. It can be resolved with the below steps.

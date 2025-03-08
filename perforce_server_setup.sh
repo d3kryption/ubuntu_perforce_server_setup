@@ -17,11 +17,11 @@ wget https://package.perforce.com/perforce.pubkey;
 
 gpg -n --import --import-options import-show perforce.pubkey
 
-wget -qO - https://package.perforce.com/perforce.pubkey | sudo apt-key add -;
+wget -qO - https://package.perforce.com/perforce.pubkey | gpg --dearmor | sudo tee /usr/share/keyrings/perforce-archive-keyring.gpg > /dev/null
 
 # Add perforce repo
 cat > /etc/apt/sources.list.d/perforce.list << EOF
-deb http://package.perforce.com/apt/ubuntu focal release
+deb [signed-by=/usr/share/keyrings/perforce-archive-keyring.gpg] http://package.perforce.com/apt/ubuntu focal release
 EOF
 
 # update with new repo
@@ -34,10 +34,8 @@ apt install -y helix-p4d;
 echo "export EDITOR='nano'" >> ~/.bashrc
 echo "export VISUAL='nano'" >> ~/.bashrc
 
-# refresh bashrc - 3 ways of trying to force the bashrc to update
+# refresh bashrc
 source ~/.bashrc
-exec bash
-. ~/.bashrc
 
 # perforce config setup
 sudo /opt/perforce/sbin/configure-helix-p4d.sh
@@ -50,14 +48,57 @@ p4 configure set run.users.authorize=1
 # set ignore file
 p4 set P4IGNORE=.p4ignore
 
+# final typemap settings
+#p4 typemap;
+
+# File to store the existing typemap
+TEMP_FILE="current_typemap.txt"
+
+# Fetch the existing typemap and save it to a file
+p4 typemap -o > "$TEMP_FILE"
+
+# Remove specific lines
+sed -i '/binary\+l \/\/\.\.\.\(exe\|dll\|lib\|bmp\|tar\)/d' "$TEMP_FILE"
+
+# Append custom typemap rules to the end of the file
+cat <<EOL >> "$TEMP_FILE"
+    binary+w //....exe
+    binary+w //....dll
+    binary+w //....lib
+    binary+w //....app
+    binary+w //....dylib
+    binary+w //....stub
+    binary+w //....ipa
+    binary //....bmp
+    text //....ini
+    text //....config
+    text //....cpp
+    text //....h
+    text //....c
+    text //....cs
+    text //....m
+    text //....mm
+    text //....py
+    binary+l //....uasset
+    binary+l //....umap
+    binary+l //....upk
+    binary+l //....udk
+    binary+l //....ubulk
+    binary+wS //..._BuiltData.uasset
+EOL
+
+# Re-import the updated typemap
+p4 typemap -i < "$TEMP_FILE"
+
+# Cleanup
+rm "$TEMP_FILE"
+
+echo "Typemap updated successfully."
+
 # firewall
-echo "press Y to allow firewall"
 
 # allow perforce
 ufw allow 1666;
 
 # enable firewall
-ufw enable
-
-# final typemap settings
-p4 typemap;
+echo "y" | ufw enable
