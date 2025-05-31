@@ -32,45 +32,6 @@ sudo ./perforce_server_setup.sh
 
 NOTE: The newest version of the script automates the Typemap part! 
 
-Keeping this here for anyone who wants the changes. (You don't need to do this)
-
-4) Remove the following lines: (see p4TypemapRemoval.md for a easier list)
-
-```bash
-binary+l //....exe
-binary+l //....dll
-binary+l //....lib
-binary+l //...bmp
-binary+l //...tar
-```
-
-5) Paste these typemap settings in when prompted (see p4TypemapAdditions.md for a easier list)
-```bash
-binary+w //....exe
-binary+w //....dll
-binary+w //....lib
-binary+w //....app
-binary+w //....dylib
-binary+w //....stub
-binary+w //....ipa
-binary //....bmp
-text //....ini
-text //....config
-text //....cpp
-text //....h
-text //....c
-text //....cs
-text //....m
-text //....mm
-text //....py
-binary+l //....uasset
-binary+l //....umap
-binary+l //....upk
-binary+l //....udk
-binary+l //....ubulk
-binary+wS //..._BuiltData.uasset
-```
-
 ## Upgrade / Reboot issue
 
 In version **2024.1**, a fatal bug causes P4 to stop working when you UPDATE / UPGRADE. It can be resolved with the below steps.
@@ -84,4 +45,6 @@ In version **2024.1**, a fatal bug causes P4 to stop working when you UPDATE / U
 
 3) Press CTRL+X to exit, Y to save, and then enter
 
-4) Now reboot the Perforce service: `systemctl start helix-p4dctl.service` and then Perforce: `p4 admin restart`
+4) Now upgrade the Perforce DB `sudo -u perforce /opt/perforce/sbin/p4d -r YOUR PERFORCE LOCATION/master/root -xu` e.g. `sudo -u perforce /opt/perforce/sbin/p4d -r /mnt/MyDrive/Perforce/master/root -xu`
+
+5) Now reboot the Perforce service: `systemctl start helix-p4dctl.service` and then Perforce: `p4 admin restart`
